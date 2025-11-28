@@ -3,6 +3,7 @@ from flask import Flask, render_template, send_file
 import math
 import qrcode
 import io
+import requests 
 
 app = Flask(__name__)
 
@@ -12,18 +13,22 @@ def home():
 
 @app.route("/qrcode")
 def get_qrcode():
-    form_url = "https://docs.google.com/forms/d/e/1FAIpQLSccQOqS9fJ6yq9fJ6yq9fJ6yq9fJ6yq9fJ6yq9fJ6yq9fJ6yq9fJ6yq9/viewform" # Replace with actual URL if known, or keep generic
-    url = "https://docs.google.com/forms" 
+    form_url = "https://docs.google.com/forms/d/e/1FAIpQLSc9KEg7Nh9KttTXu6i12-niwD09h8qBglEy2mNnGQA089Y_6A/viewform?usp=header/viewform" # Replace with actual URL if known, or keep generic
+    # url = "https://docs.google.com/forms" 
     
-    img = qrcode.make(url)
+    img = qrcode.make(form_url)
     buf = io.BytesIO()
     img.save(buf)
-    buf.seek(0)
+    buf.seek(0) 
     return send_file(buf, mimetype='image/png')
 
 @app.route("/Ahmed-projects/Philo", methods=["GET", "POST"])
 def index():
     URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cpDBJwgW7J_0oTu0SgNMMaPYbzNFbLoLH_3GeOj0rZ0uQqaQcuIEhEZLi5ggfc6LHTOrFK890efI/pub?gid=589373664&single=true&output=csv"
+    # save a copy of the sheet in data dir with name philo-lydex.csv and update it every time the page is refreshed
+    response = requests.get(URL)
+    with open("data/philo-lydex.csv", "wb") as f:
+        f.write(response.content)
 
     data = pd.read_csv(URL, encoding="utf-8")
     def extract_score(val):

@@ -30,14 +30,14 @@
         <!-- Home Tab -->
         <div id="home" class="tab-content active">
             <div class="card hero-section">
-                <h2>مرحباً بكم في مسابقة الفلسفة</h2>
-                <p>عدد المشاركين في هذه النسخة:</p>
+                <h2>مرحباً بكم في المسابقة بمناسبة اليوم العالمي للفلسفة</h2>
+                <p>عدد المشاركين في هذه المسابقة:</p>
                 <div class="participant-count">{{ len }}</div>
-
+                <hr />
                 <div class="qr-section">
                     <h3>شارك الآن!</h3>
-                    <p>امسح الرمز للدخول إلى الاستمارة</p>
-                    <!-- Dynamic QR Code -->
+                    <p>امسح الرمز للدخول إلى المسابقة</p>
+                    <!-- Dynamic QR Code from python file -->
                     <img src="{{ url_for('get_qrcode') }}" alt="QR Code" class="qr-code-img" />
                 </div>
             </div>
@@ -62,9 +62,9 @@
                     <div class="stat-label">نقطة</div>
                 </div>
                 <div class="stat-item">
-                    <h3>العلامة الكاملة</h3>
+                    <h3>عدد الحاصلين على العلامة الكاملة </h3>
                     <div class="stat-value">{{ full_marks_count }}</div>
-                    <div class="stat-label">مشارك(ين)</div>
+                    <div class="stat-label">مشارك</div>
                 </div>
             </div>
             <div class="chart-container">

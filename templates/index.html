@@ -1,359 +1,27 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>اليوم العالمي للفلسفة</title>
-    <link
-        rel="shortcut icon"
-        href="{{ url_for('static', filename='ahmed.png') }}"
-        type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='ahmed.png') }}" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap"
-        rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "El Messiri", Arial, sans-serif;
-            background-image:
-                linear-gradient(
-                    45deg,
-                    rgba(254, 246, 210, 0.53) 0%,
-                    rgba(254, 246, 210, 0.53) 14.286%,
-                    rgba(221, 240, 216, 0.53) 14.286%,
-                    rgba(221, 240, 216, 0.53) 28.572%,
-                    rgba(188, 233, 223, 0.53) 28.572%,
-                    rgba(188, 233, 223, 0.53) 42.858%,
-                    rgba(156, 227, 229, 0.53) 42.858%,
-                    rgba(156, 227, 229, 0.53) 57.144%,
-                    rgba(123, 220, 235, 0.53) 57.144%,
-                    rgba(123, 220, 235, 0.53) 71.43%,
-                    rgba(90, 214, 242, 0.53) 71.43%,
-                    rgba(90, 214, 242, 0.53) 85.716%,
-                    rgba(57, 207, 248, 0.53) 85.716%,
-                    rgba(57, 207, 248, 0.53) 100%
-                ),
-                linear-gradient(
-                    135deg,
-                    rgb(246, 99, 200) 0%,
-                    rgb(223, 98, 196) 12.5%,
-                    rgb(199, 97, 192) 25%,
-                    rgb(176, 96, 188) 37.5%,
-                    rgb(152, 95, 184) 50%,
-                    rgb(129, 94, 180) 62.5%,
-                    rgb(105, 93, 176) 75%,
-                    rgb(82, 92, 172) 87.5%,
-                    rgb(82, 92, 172) 100%
-                );
-            color: #fff;
-            text-align: center;
-            padding-top: 90px;
-            padding-bottom: 90px;
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-        }
-
-        header {
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-bottom: #7a7a7a 2px solid;
-            box-shadow: 5px 5px 10px rgba(122, 122, 122, 0.5);
-            height: 70px;
-            padding: 0 20px;
-        }
-
-        header img {
-            height: 100%;
-        }
-
-        header img.apee {
-            transform: scale(1.8);
-        }
-
-        /* Tabs */
-        .tabs-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .tabs-header {
-            display: flex;
-            background: rgba(255, 255, 255, 0.3);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 18px 10px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-family: "El Messiri", sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            outline: none;
-        }
-
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .tab-btn.active {
-            background: rgba(255, 255, 255, 0.4);
-            color: #4a0072;
-        }
-
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #4a0072;
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
-
-        .tab-btn.active::after {
-            transform: scaleX(1);
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            padding: 25px;
-            min-height: 400px;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Home Tab */
-        .home-content {
-            padding: 30px 20px;
-        }
-
-        .home-content h2 {
-            font-size: 32px;
-            margin-bottom: 25px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .participants-card {
-            background: rgba(255, 255, 255, 0.9);
-            color: #4a0072;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px auto;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .participants-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        .participants-count {
-            font-size: 48px;
-            font-weight: bold;
-            color: #d32f2f;
-        }
-
-        /* Analytics Tab */
-        .analytics-content {
-            padding: 20px;
-        }
-
-        .stats-cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.9);
-            color: #4a0072;
-            border-radius: 12px;
-            padding: 20px;
-            min-width: 180px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            flex: 1;
-        }
-
-        .stat-card h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #6a1b9a;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        #chartContainer {
-            height: 300px;
-            width: 100%;
-            margin-top: 20px;
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Results Tab */
-        .results-content {
-            padding: 20px;
-        }
-
-        .results-content h2 {
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            color: #000;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            direction: rtl;
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            font-family: "El Messiri", sans-serif;
-            text-align: center;
-        }
-
-        th {
-            background: #6a1b9a;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        tr:hover {
-            background: #f5f5f5;
-            cursor: pointer;
-        }
-
-        td.rank {
-            font-weight: bold;
-            color: #5a5a5a;
-        }
-
-        /* Footer */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            color: #000;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: #7a7a7a 2px solid;
-            box-shadow: 0 -5px 10px rgba(122, 122, 122, 0.3);
-            height: 70px;
-            font-size: 18px;
-            font-family: "El Messiri", sans-serif;
-            padding: 0 20px;
-            z-index: 99;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .tabs-header {
-                flex-direction: column;
-            }
-            
-            .tab-btn {
-                padding: 15px;
-            }
-            
-            .stat-card {
-                min-width: 140px;
-            }
-            
-            .participants-count {
-                font-size: 36px;
-            }
-            
-            footer {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-                gap: 5px;
-            }
-        }
-    </style>
 </head>
+
 <body>
-    <div class="header">
-        <header>
-            <img
-                src="{{ url_for('static', filename='APEE-no-bg.png')}}"
-                alt="APEE logo"
-                class="apee"
-            />
-            <img
-                src="{{ url_for('static', filename='lydex-rabat-logo.png')}}"
-                alt="Lydex Rabat Logo"
-                class="lydex"
-            />
-        </header>
+    <div class="header-container">
+        <img src="{{ url_for('static', filename='APEE-no-bg.png')}}" alt="APEE logo" class="logo" />
+        <h1 class="header-title">اليوم العالمي للفلسفة</h1>
+        <img src="{{ url_for('static', filename='lydex-rabat-logo.png')}}" alt="Lydex Rabat Logo" class="logo" />
     </div>
 
-    <div class="tabs-container">
-        <div class="tabs-header">
+    <div class="main-container">
+        <div class="tabs-nav">
             <button class="tab-btn active" data-tab="home">الواجهة الرئيسية</button>
             <button class="tab-btn" data-tab="analytics">تحليل عام</button>
             <button class="tab-btn" data-tab="results">النتائج</button>
@@ -361,68 +29,77 @@
 
         <!-- Home Tab -->
         <div id="home" class="tab-content active">
-            <div class="home-content">
-                <h2>اليوم العالمي للفلسفة</h2>
-                <div class="participants-card">
-                    <h3>عدد المشاركين في المسابقة:</h3>
-                    <div class="participants-count">{{ len }}</div>
+            <div class="card hero-section">
+                <h2>مرحباً بكم في مسابقة الفلسفة</h2>
+                <p>عدد المشاركين في هذه النسخة:</p>
+                <div class="participant-count">{{ len }}</div>
+
+                <div class="qr-section">
+                    <h3>شارك الآن!</h3>
+                    <p>امسح الرمز للدخول إلى الاستمارة</p>
+                    <!-- Dynamic QR Code -->
+                    <img src="{{ url_for('get_qrcode') }}" alt="QR Code" class="qr-code-img" />
                 </div>
             </div>
         </div>
 
         <!-- Analytics Tab -->
         <div id="analytics" class="tab-content">
-            <div class="analytics-content">
-                <div class="stats-cards">
-                    <div class="stat-card">
-                        <h3>المتوسط</h3>
-                        <div class="stat-value" id="avg-score">{{ "%.2f"|format(avg_score) }} </div>
-                        <div class="stat-label">نقطة</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>أعلى نقطة</h3>
-                        <div class="stat-value" id="max-score">{{ max_score }}</div>
-                        <div class="stat-label">نقطة</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>أقل نقطة</h3>
-                        <div class="stat-value" id="min-score">{{ min_score }}</div>
-                        <div class="stat-label">نقطة</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>عدد الحاصلين على العلامة الكاملة</h3>
-                        <div class="stat-value" id="full-marks">{{ full_marks_count }}</div>
-                        <div class="stat-label">مشارك(ين)</div>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>المتوسط</h3>
+                    <div class="stat-value">{{ "%.2f"|format(avg_score) }}</div>
+                    <div class="stat-label">نقطة</div>
                 </div>
-                <div id="chartContainer"></div>
+                <div class="stat-item">
+                    <h3>أعلى نقطة</h3>
+                    <div class="stat-value">{{ max_score }}</div>
+                    <div class="stat-label">نقطة</div>
+                </div>
+                <div class="stat-item">
+                    <h3>أقل نقطة</h3>
+                    <div class="stat-value">{{ min_score }}</div>
+                    <div class="stat-label">نقطة</div>
+                </div>
+                <div class="stat-item">
+                    <h3>العلامة الكاملة</h3>
+                    <div class="stat-value">{{ full_marks_count }}</div>
+                    <div class="stat-label">مشارك(ين)</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div id="chartContainer" style="height: 100%; width: 100%;"></div>
             </div>
         </div>
 
         <!-- Results Tab -->
         <div id="results" class="tab-content">
-            <div class="results-content">
-                <h2>نتائج المسابقة</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الرتبة</th>
-                            <th>الإسم الكامل</th>
-                            <th>القسم</th>
-                            <th>النقطة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in tables %}
-                        <tr>
-                            <td class="rank">{{ row['rank'] }}</td>
-                            <td>{{ row['nom'] }}</td>
-                            <td>{{ row['class-bac'] or row['class-tc'] }}</td>
-                            <td style="direction: ltr">{{ row['Score'] }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="card">
+                <div class="search-container">
+                    <input type="text" id="tableSearch" class="search-input" placeholder="بحث عن اسم أو قسم..." />
+                </div>
+                <div class="table-container">
+                    <table data-sort-dir="asc">
+                        <thead>
+                            <tr>
+                                <th>الرتبة ↕</th>
+                                <th>الإسم الكامل ↕</th>
+                                <th>القسم ↕</th>
+                                <th>النقطة ↕</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in tables %}
+                            <tr>
+                                <td><span class="rank-badge">{{ row['rank'] }}</span></td>
+                                <td>{{ row['nom'] }}</td>
+                                <td>{{ row['class-bac'] or row['class-tc'] }}</td>
+                                <td style="direction: ltr; font-weight: bold;">{{ row['Score'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -430,76 +107,20 @@
     <footer>
         <p>أحمد بورمضان - جميع الحقوق محفوظة © 2025</p>
         <p>ثانوية التميز بالرباط</p>
-        <p>اليوم العالمي للفلسفة</p>
     </footer>
 
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
-        // Tab switching functionality
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons and content
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                // Add active class to clicked button and corresponding content
-                button.classList.add('active');
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-                
-                // Render chart when analytics tab is activated
-                if (tabId === 'analytics') {
-                    renderChart();
-                }
-            });
-        });
+        // Pass Flask variables to JS
+        const scoreRanges = {{ score_ranges | tojson }};
+        const fullMarksCount = {{ full_marks_count }};
 
-        // Render analytics chart
         function renderChart() {
-            // Score ranges data (will be populated by Flask)
-            const scoreRanges = {{ score_ranges | tojson }};
-            const fullMarksCount = {{ full_marks_count }};
-            
-            const dataPoints = [
-                { label: "0-5", y: scoreRanges[0] },
-                { label: "5-10", y: scoreRanges[1] },
-                { label: "10-15", y: scoreRanges[2] },
-                { label: "15-20", y: scoreRanges[3] },
-                { label: "21 (العلامة الكاملة)", y: fullMarksCount }
-            ];
-            
-            const chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                theme: "light2",
-                title: {
-                    text: "توزيع النقاط",
-                    fontFamily: "El Messiri",
-                    fontSize: 20,
-                    fontColor: "#4a0072"
-                },
-                axisX: {
-                    title: "النقطة",
-                    titleFontFamily: "El Messiri",
-                    labelFontFamily: "El Messiri"
-                },
-                axisY: {
-                    title: "عدد المشاركين",
-                    includeZero: true,
-                    titleFontFamily: "El Messiri",
-                    labelFontFamily: "El Messiri"
-                },
-                data: [{
-                    type: "column",
-                    color: "#16aadd",
-                    dataPoints: dataPoints,
-                    // change the width of columns
-                    indexLabelFontFamily: "El Messiri",
-                    indexLabelFontColor: "#000",
-                    indexLabelFontSize: 14,
-                    indexLabel: "{y} student(s)"
-                }]
-            });
-            chart.render();
+            if (window.drawChart) {
+                window.drawChart(scoreRanges, fullMarksCount);
+            }
         }
     </script>
 </body>
+
 </html>

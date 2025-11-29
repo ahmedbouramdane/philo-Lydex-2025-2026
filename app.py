@@ -4,6 +4,7 @@ import math
 import qrcode
 import io
 import requests 
+import os
 
 app = Flask(__name__)
 
@@ -24,8 +25,10 @@ def get_qrcode():
 
 @app.route("/Ahmed-projects/Philo", methods=["GET", "POST"])
 def index():
-    URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cpDBJwgW7J_0oTu0SgNMMaPYbzNFbLoLH_3GeOj0rZ0uQqaQcuIEhEZLi5ggfc6LHTOrFK890efI/pub?gid=589373664&single=true&output=csv"
     # save a copy of the sheet in data dir with name philo-lydex.csv and update it every time the page is refreshed
+    import dotenv
+    dotenv.load_dotenv()
+    URL = os.getenv("URL")
     response = requests.get(URL)
     with open("data/philo-lydex.csv", "wb") as f:
         f.write(response.content)

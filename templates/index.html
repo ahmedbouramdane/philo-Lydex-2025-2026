@@ -39,6 +39,16 @@
                     <p>امسح الرمز للدخول إلى المسابقة</p>
                     <!-- Dynamic QR Code from python file -->
                     <img src="{{ url_for('get_qrcode') }}" alt="QR Code" class="qr-code-img" />
+                    <p style="text-align: center; direction: ltr;"><b>Note:</b> This QR-code generated automatically by
+                        <u>qrcode</u> library in <u>python</u>.
+                        So you can find error in QR-code, make sure you are
+                        in the right website.
+                    </p>
+                    <p style="text-align: center; direction: ltr;"><i>Ahmed 😄</i></p>
+                </div>
+                <div class="phone-alert">
+                    <h3>You should see that website on your phone</h3>
+                    <img src="{{ url_for('static', filename='phone-alert.png') }}" alt="phone-alert">
                 </div>
             </div>
         </div>
@@ -76,7 +86,7 @@
         <div id="results" class="tab-content">
             <div class="card">
                 <div class="search-container">
-                    <input type="text" id="tableSearch" class="search-input" placeholder="بحث عن اسم أو قسم..." />
+                    <input type="text" id="tableSearch" class="search-input" placeholder="بحث ..." />
                 </div>
                 <div class="table-container">
                     <table data-sort-dir="asc">
